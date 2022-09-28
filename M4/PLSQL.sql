@@ -17,3 +17,15 @@ BEGIN
     Y:=40;
     DBMS_OUTPUT.PUT_LINE(X+Y);
 END;
+SET SERVEROUTPUT ON;
+DECLARE
+    X NUMBER;
+BEGIN
+    X:=87;
+    CASE
+        WHEN X>80 THEN
+            DBMS_OUTPUT.PUT_LINE('A');
+        WHEN X<65 THEN
+            DBMS_OUTPUT.PUT_LINE('B');
+    END CASE;
+END;
