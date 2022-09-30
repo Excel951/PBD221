@@ -71,3 +71,22 @@ FROM
     )
 WHERE
     R=2;
+
+SELECT
+    LAST_NAME,
+    JOB_ID,
+    TO_CHAR(SYSDATE,
+    'yyyy')-TO_CHAR(HIRE_DATE,
+    'yyyy')||' TAHUN' AS "lama kerja",
+    CASE
+        WHEN (TO_CHAR(SYSDATE, 'yyyy')-TO_CHAR(HIRE_DATE, 'yyyy')) < 20 THEN
+            'Junior'
+        WHEN (TO_CHAR(SYSDATE, 'yyyy')-TO_CHAR(HIRE_DATE, 'yyyy')) >= 20 THEN
+            'Senior'
+    END               AS TINGKAT
+FROM
+    EMPLOYEES;
+
+WHERE HIRE_DATE BETWEEN '28-09-1988'
+
+AND '06-02-2000';
