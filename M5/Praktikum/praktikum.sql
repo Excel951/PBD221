@@ -52,13 +52,14 @@ BEGIN
     RETURN 'Kategori Barang dengan id: '||kode||' dan nama: '||nama||' berhasil ditambahkan';
 end;
 
-create or replace function delGolProduct(kode in KATEGORIBARANG.KODEGOL%TYPE, nama IN KATEGORIBARANG.NAMAGOL%TYPE)
+create or replace function delGolProduct(kode in KATEGORIBARANG.KODEGOL%TYPE)
 RETURN VARCHAR2 IS 
 PRAGMA AUTONOMOUS_TRANSACTION;
 BEGIN
-    INSERT INTO KATEGORIBARANG VALUES (kode, nama);
+    DELETE FROM KATEGORIBARANG WHERE KATEGORIBARANG.KODEGOL=kode;
     COMMIT;
-    RETURN 'Kategori Barang dengan id: '||kode||' dan nama: '||nama||' berhasil ditambahkan';
+    RETURN 'Kategori Barang dengan id: '||kode||' berhasil dihapus';
 end;
 
-select addGolProduct('ATK', 'Alat Tulis Kantor') from dual;
+select addGolProduct('COM', 'Komputer') from dual;
+SELECT delGolProduct('COM') from dual;
