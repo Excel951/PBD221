@@ -63,3 +63,34 @@ end;
 
 select addGolProduct('COM', 'Komputer') from dual;
 SELECT delGolProduct('COM') from dual;
+
+-- Tugas
+-- Buat soal function dengan menggunakan user hr dan gudang masing-masing 1
+-- 1. Buat function otomatis untuk membuat password dari tahun 2 digit, id departemen, dan no urut 
+-- berdasarkan nama dan penggolongan departemen
+create or replace function createPass
+return varchar2 IS
+password varchar2(10);
+BEGIN
+    SELECT
+        TO_CHAR(HIRE_DATE, 'YY')||EMPLOYEES.department_id||SUBSTR(EMPLOYEE_ID, 2, 2)
+    into PASSWORD
+    from EMPLOYEES
+    group by EMPLOYEE_ID, DEPARTMENT_ID, HIRE_DATE;
+    return password;
+end;
+
+select createPass() from EMPLOYEES;
+
+    SELECT
+        TO_CHAR(HIRE_DATE, 'YY')||EMPLOYEES.department_id||SUBSTR(EMPLOYEE_ID /*CHAR*/,
+                                                                   2 /*POSITION*/,
+                                                                   2 /*SUBSTRING_LENGTH*/)
+    from EMPLOYEES
+    group by EMPLOYEE_ID, DEPARTMENT_ID, HIRE_DATE;
+
+    select EMPLOYEE_ID from EMPLOYEES;
+
+    SELECT SUBSTR(employee_id /*CHAR*/,
+                   2 /*POSITION*/,
+                   2 /*SUBSTRING_LENGTH*/) from EMPLOYEES;
