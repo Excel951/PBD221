@@ -61,32 +61,51 @@ begin
 end;
 
 
-declare
-total       number:=0;
-cursor kodetgl is select o.ORDER_ID, O.ORDER_DATE, C.NAME from orders o join CUSTOMERS c on c.CUSTOMER_ID=o.CUSTOMER_ID where order_id=4;
-cursor penjualan is select oi.ORDER_ID, OI.QUANTITY, OI.UNIT_PRICE, P.PRODUCT_ID, P.PRODUCT_NAME from order_items oi join PRODUCTS p on oi.PRODUCT_ID=p.PRODUCT_ID where order_id=4;
-begin
+DECLARE
+total       NUMBER:=0;
+CURSOR kodetgl IS 
+    SELECT 
+        O.ORDER_ID,
+        O.ORDER_DATE,
+        C.NAME,
+        E.first_name,
+        E.last_name,
+        OI.QUANTITY,
+        OI.UNIT_PRICE,
+        P.PRODUCT_ID,
+        P.PRODUCT_NAME 
+    FROM orders O
+        JOIN CUSTOMERS C ON C.CUSTOMER_ID=O.CUSTOMER_ID
+        JOIN employees E ON E.employee_id=O.salesman_id
+        JOIN order_items oi ON oi.order_id=O.order_id
+        JOIN products P ON P.PRODUCT_ID=oi.PRODUCT_ID
+    WHERE O.order_id=4;
+
+-- cursor penjualan is select oi.ORDER_ID, OI.QUANTITY, OI.UNIT_PRICE, P.PRODUCT_ID, P.PRODUCT_NAME from order_items oi join PRODUCTS p on oi.PRODUCT_ID=p.PRODUCT_ID where order_id=4;
+BEGIN
     dbms_output.PUT_LINE('Toko Serba Emas');
 
-    for keluaran in kodetgl
-    loop
+    FOR keluaran IN kodetgl
+    LOOP 
         dbms_output.put_line('Kode: '||keluaran.order_id);
         dbms_output.put_line('Tanggal: '||keluaran.order_date);
-        dbms_output.PUT_LINE('Nama Customer: '||keluaran.name);
-    end loop;
+        dbms_output.PUT_LINE('Nama Customer: '||keluaran.NAME);
+        dbms_output.put_line('Nama Sales: '||keluaran.first_name||' '||keluaran.last_name);
+        EXIT;
+    END LOOP;
     
     dbms_output.put_line('=================================');
     
     dbms_output.PUT_LINE('No. item     |     Nama Item     |     Quantity     |     Price     |     Total');
 
-    for keluaran in penjualan
-    loop
+    FOR keluaran IN kodetgl
+    LOOP
         dbms_output.put_line(keluaran.PRODUCT_ID||'     |     '||keluaran.PRODUCT_NAME||'     |     '||keluaran.quantity||'     |     '||keluaran.unit_price||'     |     '||(keluaran.unit_price*keluaran.quantity));
         total:=total+(keluaran.unit_price*keluaran.quantity);
-    end loop;
+    END LOOP;
 
     dbms_output.put_line('=================================');
 
     DBMS_OUTPUT.PUT_LINE('Grand Total: '||total);
     DBMS_OUTPUT.PUT_LINE('Terima Kasih Kedatangannya');
-end;
+END;
