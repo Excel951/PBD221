@@ -79,7 +79,7 @@ CURSOR kodetgl IS
         JOIN employees E ON E.employee_id=O.salesman_id
         JOIN order_items oi ON oi.order_id=O.order_id
         JOIN products P ON P.PRODUCT_ID=oi.PRODUCT_ID
-    WHERE O.order_id=4;
+    WHERE O.order_id=&ID;
 
 -- cursor penjualan is select oi.ORDER_ID, OI.QUANTITY, OI.UNIT_PRICE, P.PRODUCT_ID, P.PRODUCT_NAME from order_items oi join PRODUCTS p on oi.PRODUCT_ID=p.PRODUCT_ID where order_id=4;
 BEGIN
