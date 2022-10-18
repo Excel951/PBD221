@@ -103,8 +103,20 @@ DECLARE
             ON OI.ORDER_ID=O.ORDER_ID JOIN PRODUCTS P
             ON P.PRODUCT_ID=OI.PRODUCT_ID
         WHERE
-            O.ORDER_ID=45;
- -- cursor penjualan is select oi.ORDER_ID, OI.QUANTITY, OI.UNIT_PRICE, P.PRODUCT_ID, P.PRODUCT_NAME from order_items oi join PRODUCTS p on oi.PRODUCT_ID=p.PRODUCT_ID where order_id=4;
+            O.ORDER_ID=39;
+    CURSOR PENJUALAN IS
+        SELECT
+            OI.ORDER_ID,
+            OI.QUANTITY,
+            OI.UNIT_PRICE,
+            P.PRODUCT_ID,
+            P.PRODUCT_NAME
+        FROM
+            ORDER_ITEMS OI
+            JOIN PRODUCTS P
+            ON OI.PRODUCT_ID=P.PRODUCT_ID
+        WHERE
+            OI.ORDER_ID=39;
 BEGIN
     DBMS_OUTPUT.PUT_LINE('Toko Serba Emas');
     FOR KELUARAN IN KODETGL LOOP
@@ -122,7 +134,7 @@ BEGIN
     END LOOP;
     DBMS_OUTPUT.PUT_LINE('=================================');
     DBMS_OUTPUT.PUT_LINE('No. item     |     Nama Item     |     Quantity     |     Price     |     Total');
-    FOR KELUARAN IN KODETGL LOOP
+    FOR KELUARAN IN PENJUALAN LOOP
         DBMS_OUTPUT.PUT_LINE(KELUARAN.PRODUCT_ID
             ||'     |     '
             ||KELUARAN.PRODUCT_NAME
