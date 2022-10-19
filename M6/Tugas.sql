@@ -1,66 +1,95 @@
-CREATE OR REPLACE PROCEDURE PRINTINVOICE (
-    ID IN ORDERS.ORDER_ID%TYPE
-) AS
+DECLARE
+    IDTEMP1 NUMBER;
+    IDTEMP2 NUMBER;
+    GTOTAL NUMBER;
+    TOTAL NUMBER:=0;
+    NO NUMBER;
+    CURSOR KODETGL IS
+        SELECT
+            O.ORDER_ID,
+            OI.QUANTITY,
+            OI.UNIT_PRICE,
+            P.PRODUCT_ID,
+            P.PRODUCT_NAME
+        FROM
+            ORDERS      O
+            JOIN ORDER_ITEMS OI
+            ON OI.ORDER_ID=O.ORDER_ID JOIN PRODUCTS P
+            ON P.PRODUCT_ID=OI.PRODUCT_ID
+        where
+            O.ORDER_DATE BETWEEN TO_DATE('1-10-2017', 'dd-mm-yyyy') AND TO_DATE('30-10-2017', 'dd-mm-yyyy')
+        ORDER BY O.ORDER_ID ASC;
+        --     O.ORDER_ID=4;
+            
+    cursor penjualan is 
+        select 
+            O.ORDER_ID,
+            O.ORDER_DATE,
+            C.NAME,
+            E.FIRST_NAME,
+            E.LAST_NAME
+        from 
+            ORDERS O
+            JOIN CUSTOMERS C ON C.CUSTOMER_ID=O.CUSTOMER_ID
+            JOIN EMPLOYEES E ON E.EMPLOYEE_ID=O.SALESMAN_ID
+        where
+            O.ORDER_DATE BETWEEN TO_DATE('1-10-2017', 'dd-mm-yyyy') AND TO_DATE('30-10-2017', 'dd-mm-yyyy')
+        ORDER BY O.ORDER_ID ASC;
 BEGIN
-    DECLARE
-        TOTAL NUMBER:=0;
-        CURSOR KODETGL IS
-            SELECT
-                O.ORDER_ID,
-                O.ORDER_DATE,
-                C.NAME,
-                E.FIRST_NAME,
-                E.LAST_NAME,
-                OI.QUANTITY,
-                OI.UNIT_PRICE,
-                P.PRODUCT_ID,
-                P.PRODUCT_NAME
-            FROM
-                ORDERS      O
-                JOIN CUSTOMERS C
-                ON C.CUSTOMER_ID=O.CUSTOMER_ID JOIN EMPLOYEES E
-                ON E.EMPLOYEE_ID=O.SALESMAN_ID
-                JOIN ORDER_ITEMS OI
-                ON OI.ORDER_ID=O.ORDER_ID JOIN PRODUCTS P
-                ON P.PRODUCT_ID=OI.PRODUCT_ID
-            WHERE
-                O.ORDER_ID=4;
- -- cursor penjualan is select oi.ORDER_ID, OI.QUANTITY, OI.UNIT_PRICE, P.PRODUCT_ID, P.PRODUCT_NAME from order_items oi join PRODUCTS p on oi.PRODUCT_ID=p.PRODUCT_ID where order_id=4;
-    BEGIN
-        DBMS_OUTPUT.PUT_LINE('Toko Serba Emas');
-        FOR KELUARAN IN KODETGL LOOP
-            FOR KELUARAN IN KODETGL LOOP
-                DBMS_OUTPUT.PUT_LINE('Kode: '
-                    ||KELUARAN.ORDER_ID);
-                DBMS_OUTPUT.PUT_LINE('Tanggal: '
-                    ||KELUARAN.ORDER_DATE);
-                DBMS_OUTPUT.PUT_LINE('Nama Customer: '
-                    ||KELUARAN.NAME);
-                DBMS_OUTPUT.PUT_LINE('Nama Sales: '
-                    ||KELUARAN.FIRST_NAME
-                    ||' '
-                    ||KELUARAN.LAST_NAME);
-                EXIT;
-            END LOOP;
-            DBMS_OUTPUT.PUT_LINE('=================================');
-            DBMS_OUTPUT.PUT_LINE('No. item     |     Nama Item     |     Quantity     |     Price     |     Total');
-            FOR KELUARAN IN KODETGL LOOP
-                DBMS_OUTPUT.PUT_LINE(KELUARAN.PRODUCT_ID
+    DBMS_OUTPUT.PUT_LINE('Toko Serba Emas');
+    
+    -- FOR BATASAN IN PENJUALAN LOOP
+    --     IDTEMP1:=BATASAN.ORDER_ID;
+    --     EXIT;
+    -- END LOOP;
+
+    FOR KELUARAN1 IN PENJUALAN LOOP
+        NO:=0;
+        GTOTAL:=0;
+        -- FOR KELUARAN2 IN penjualan LOOP
+            DBMS_OUTPUT.PUT_LINE('Kode: '
+                ||KELUARAN1.ORDER_ID);
+            DBMS_OUTPUT.PUT_LINE('Tanggal: '
+                ||KELUARAN1.ORDER_DATE);
+            DBMS_OUTPUT.PUT_LINE('Nama Customer: '
+                ||KELUARAN1.NAME);
+            DBMS_OUTPUT.PUT_LINE('Nama Sales: '
+                ||KELUARAN1.FIRST_NAME
+                ||' '
+                ||KELUARAN1.LAST_NAME);
+        --     EXIT;
+        -- END LOOP;
+        IDTEMP2:=KELUARAN1.ORDER_ID;
+        -- DBMS_OUTPUT.PUT_LINE(IDTEMP2);
+        DBMS_OUTPUT.PUT_LINE('=================================');
+        DBMS_OUTPUT.PUT_LINE('No.       |       No. item     |     Nama Item     |     Quantity     |     Price     |     Total');
+    
+        FOR KELUARAN3 IN KODETGL LOOP
+            IDTEMP1:=KELUARAN3.ORDER_ID;
+            IF IDTEMP1 = IDTEMP2 THEN
+                NO:=NO+1;
+                DBMS_OUTPUT.PUT_LINE(KELUARAN3.ORDER_ID);
+                DBMS_OUTPUT.PUT_LINE(NO
                     ||'     |     '
-                    ||KELUARAN.PRODUCT_NAME
+                    ||KELUARAN3.PRODUCT_ID
                     ||'     |     '
-                    ||KELUARAN.QUANTITY
+                    ||KELUARAN3.PRODUCT_NAME
                     ||'     |     '
-                    ||KELUARAN.UNIT_PRICE
+                    ||KELUARAN3.QUANTITY
                     ||'     |     '
-                    ||(KELUARAN.UNIT_PRICE*KELUARAN.QUANTITY));
-                TOTAL:=TOTAL+(KELUARAN.UNIT_PRICE*KELUARAN.QUANTITY);
-            END LOOP;
-            DBMS_OUTPUT.PUT_LINE('=================================');
-            DBMS_OUTPUT.PUT_LINE('Grand Total: '
-                ||TOTAL);
-            DBMS_OUTPUT.PUT_LINE('Terima Kasih Kedatangannya');
+                    ||KELUARAN3.UNIT_PRICE
+                    ||'     |     '
+                    ||(KELUARAN3.UNIT_PRICE*KELUARAN3.QUANTITY));
+                GTOTAL:=GTOTAL+(KELUARAN3.UNIT_PRICE*KELUARAN3.QUANTITY);
+                DBMS_OUTPUT.PUT_LINE('=================================');
+                DBMS_OUTPUT.PUT_LINE('Grand Total: '
+                    ||GTOTAL);
+
+            END IF;
+
         END LOOP;
-    END;
+        DBMS_OUTPUT.PUT_LINE('Terima Kasih Kedatangannya');
+        TOTAL:=GTOTAL+TOTAL;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE('Jumlah Total Keseluruhan dari tanggal  -  : '||TOTAL);
 END;
-EXEC PRINTINVOICE(4);
