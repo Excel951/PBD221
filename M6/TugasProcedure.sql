@@ -1,3 +1,8 @@
+CREATE OR REPLACE PROCEDURE TUGASNOTA1 (
+    TGLAWAL IN VARCHAR2,
+    TGLAKHIR IN VARCHAR2
+) AS
+BEGIN
 DECLARE
     IDTEMP1 NUMBER;
     IDTEMP2 NUMBER;
@@ -17,7 +22,7 @@ DECLARE
             ON OI.ORDER_ID=O.ORDER_ID JOIN PRODUCTS P
             ON P.PRODUCT_ID=OI.PRODUCT_ID
         where
-            O.ORDER_DATE BETWEEN TO_DATE('1-1-2017', 'dd-mm-yyyy') AND TO_DATE('30-10-2017', 'dd-mm-yyyy')
+            O.ORDER_DATE BETWEEN TO_DATE(TGLAWAL, 'dd-mm-yyyy') AND TO_DATE(TGLAKHIR, 'dd-mm-yyyy')
         ORDER BY O.ORDER_ID ASC;
         --     O.ORDER_ID=4;
             
@@ -33,7 +38,7 @@ DECLARE
             JOIN CUSTOMERS C ON C.CUSTOMER_ID=O.CUSTOMER_ID
             JOIN EMPLOYEES E ON E.EMPLOYEE_ID=O.SALESMAN_ID
         where
-            O.ORDER_DATE BETWEEN TO_DATE('1-1-2017', 'dd-mm-yyyy') AND TO_DATE('30-10-2017', 'dd-mm-yyyy')
+            O.ORDER_DATE BETWEEN TO_DATE(TGLAWAL, 'dd-mm-yyyy') AND TO_DATE(TGLAKHIR, 'dd-mm-yyyy')
         ORDER BY O.ORDER_ID ASC;
 BEGIN
     DBMS_OUTPUT.PUT_LINE('Toko Serba Emas');
@@ -92,3 +97,7 @@ BEGIN
     END LOOP;
     DBMS_OUTPUT.PUT_LINE('Jumlah Total Keseluruhan dari tanggal  -  : '||TOTAL);
 END;
+END;
+
+
+EXEC TUGASNOTA1('1-1-2015','31-12-2017');
