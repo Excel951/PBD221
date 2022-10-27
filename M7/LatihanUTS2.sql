@@ -12,14 +12,14 @@ DECLARE
             p.LIST_PRICE AS HARGA,
             i.QUANTITY AS "JUMLAH AWAL",
             SUM(CASE 
-                WHEN o.STATUS LIKE 'Shipped' THEN 1
+                WHEN o.STATUS LIKE 'Shipped' THEN oi.QUANTITY
                 WHEN o.STATUS LIKE 'Pending' THEN 0
                 ELSE 0
                 END
             ) AS "JUMLAH KELUAR" ,
             (i.QUANTITY - 
                 SUM(CASE 
-                    WHEN o.STATUS LIKE 'Shipped' THEN 1
+                    WHEN o.STATUS LIKE 'Shipped' THEN oi.QUANTITY
                     WHEN o.STATUS LIKE 'Pending' THEN 0
                     ELSE 0
                     END
