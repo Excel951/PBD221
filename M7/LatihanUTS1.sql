@@ -98,7 +98,7 @@ BEGIN
         DBMS_OUTPUT.PUT_LINE('Terima Kasih Kedatangannya');
         TOTAL:=GTOTAL+TOTAL;
     END LOOP;
-    DBMS_OUTPUT.PUT_LINE('Jumlah Total Keseluruhan dari tanggal  -  : '||TOTAL);
+    DBMS_OUTPUT.PUT_LINE('Jumlah Total Keseluruhan dari tanggal '||TGLAWAL||' - '||TGLAKHIR||' : '||TOTAL);
     
 END;
 END;
