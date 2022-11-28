@@ -2,12 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package CRUD;
+package CRUD.Master;
 
+import CRUD.addCategory;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 import java.sql.Statement;
@@ -16,7 +15,7 @@ import java.sql.Statement;
  *
  * @author Invinity
  */
-public class categoryProduct extends javax.swing.JFrame {
+public class CategoryProduct extends javax.swing.JFrame {
 
     public Connection conn1;
     public static ResultSet rs;
@@ -24,7 +23,7 @@ public class categoryProduct extends javax.swing.JFrame {
     /**
      * Creates new form categoryProduct
      */
-    public categoryProduct() {
+    public CategoryProduct() {
         initComponents();
     }
 
@@ -142,14 +141,14 @@ public class categoryProduct extends javax.swing.JFrame {
     private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        Menu k = new Menu();
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        k.setAlwaysOnTop(true);
+//        Menu k = new Menu();
+//        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+//        k.setAlwaysOnTop(true);
 //        k.setBounds(0 + 200, 0 + 200, screenSize.width - 400, screenSize.height - 400);
-        k.toFront();
-        k.requestFocus();
-
-        k.setVisible(true);
+//        k.toFront();
+//        k.requestFocus();
+//
+//        k.setVisible(true);
     }//GEN-LAST:event_cancelActionPerformed
 
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
@@ -177,11 +176,9 @@ public class categoryProduct extends javax.swing.JFrame {
         ac.toFront();
         ac.requestFocus();
         if (baris != -1) {
-//            int pilih = (Integer.valueOf(jTable1.getValueAt(baris, 2).toString()) - 2);
             ac.categoryID.setText(jTable1.getValueAt(baris, 0).toString());
             ac.categoryID.disable();
             ac.categoryName.setText(jTable1.getValueAt(baris, 1).toString());
-//            ac.categoryID.setSelectedIndex(pilih);
             ac.save.setVisible(false);
             ac.update.setVisible(true);
             ac.delete.setVisible(true);
@@ -206,20 +203,21 @@ public class categoryProduct extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(categoryProduct.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CategoryProduct.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(categoryProduct.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CategoryProduct.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(categoryProduct.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CategoryProduct.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(categoryProduct.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CategoryProduct.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new categoryProduct().setVisible(true);
+                new CategoryProduct().setVisible(true);
             }
         });
     }

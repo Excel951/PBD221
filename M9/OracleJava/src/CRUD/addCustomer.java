@@ -4,11 +4,9 @@
  */
 package CRUD;
 
+import CRUD.Master.Customers;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
-import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 import java.sql.Statement;
 
@@ -16,7 +14,7 @@ import java.sql.Statement;
  *
  * @author Invinity
  */
-public class addCategory extends javax.swing.JFrame {
+public class addCustomer extends javax.swing.JFrame {
 
     public Connection conn1;
     public static ResultSet rs;
@@ -24,7 +22,7 @@ public class addCategory extends javax.swing.JFrame {
     /**
      * Creates new form addCategory
      */
-    public addCategory() {
+    public addCustomer() {
         initComponents();
     }
 
@@ -39,22 +37,34 @@ public class addCategory extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        categoryID = new javax.swing.JTextField();
+        customerID = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        categoryName = new javax.swing.JTextField();
+        custName = new javax.swing.JTextField();
         save = new javax.swing.JButton();
         update = new javax.swing.JButton();
         delete = new javax.swing.JButton();
         cancel = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        website = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        creditLimit = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        address = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jLabel1.setText("ADD CATEGORY");
+        jLabel1.setText("ADD CUSTOMERS");
 
-        jLabel2.setText("Category ID");
+        jLabel2.setText("Customer ID");
 
-        jLabel3.setText("Category Name");
+        jLabel3.setText("Customer Name");
 
         save.setText("Save");
         save.addActionListener(new java.awt.event.ActionListener() {
@@ -84,6 +94,16 @@ public class addCategory extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setText("Address");
+
+        jLabel5.setText("Website");
+
+        jLabel6.setText("Credit Limit");
+
+        address.setColumns(20);
+        address.setRows(5);
+        jScrollPane1.setViewportView(address);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -91,32 +111,40 @@ public class addCategory extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(save)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(update)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(delete))
-                            .addComponent(categoryName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
-                        .addComponent(cancel))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(140, 140, 140)
+                                .addGap(133, 133, 133)
                                 .addComponent(jLabel1))
                             .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(jLabel2))
+                                .addComponent(jLabel4)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(categoryID, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(save)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(update)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(delete))
+                                    .addComponent(custName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
+                                .addComponent(cancel))
                             .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel3)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(customerID, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3)
+                                    .addComponent(website, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel5)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(creditLimit, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
+                                        .addComponent(jLabel6))
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -127,12 +155,24 @@ public class addCategory extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(categoryID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(customerID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(categoryName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 131, Short.MAX_VALUE)
+                .addComponent(custName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(website, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(creditLimit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(save)
                     .addComponent(update)
@@ -147,89 +187,117 @@ public class addCategory extends javax.swing.JFrame {
     private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
         // TODO add your handling code here:
         try {
+            conn1 = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/XE", "market", "123456789");
+
             if (conn1 != null) {
                 Statement st = conn1.createStatement();
-                String querySQL = "update PRODUCT_CATEGORIES set "
-                        + "CATEGORY_ID='" + categoryID.getText().toString()
-                        + "', CATEGORY_NAME='" + categoryName.getText().toString() + "'";
-                st.executeUpdate(querySQL);
+                String querySQL = "UPDATE CUSTOMERS SET NAME='"
+                        + custName.getText()
+                        + "', ADDRESS='" + address.getText()
+                        + "', WEBSITE='" + website.getText()
+                        + "', CREDIT_LIMIT='" + creditLimit.getText()
+                        + "' WHERE CUSTOMER_ID='" + customerID.getText() + "'";
+                st.execute(querySQL);
             }
         } catch (SQLException ex) {
-            java.util.logging.Logger.getLogger(addProduct.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(addCustomer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
         this.setVisible(false);
-        categoryProduct cp = new categoryProduct();
+        Customers c = new Customers();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        cp.setAlwaysOnTop(true);
-        cp.setBounds(0 + 200, 0 + 200, screenSize.width - 400, screenSize.height - 400);
-        cp.toFront();
-        cp.requestFocus();
-        cp.setVisible(true);
-        cp.toFront();
-        cp.requestFocus();
+        c.setAlwaysOnTop(true);
+        c.setBounds(0 + 200, 0 + 200, screenSize.width - 400, screenSize.height - 400);
+        c.toFront();
+        c.requestFocus();
+        c.setVisible(true);
+        c.toFront();
+        c.requestFocus();
     }//GEN-LAST:event_updateActionPerformed
 
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
         // TODO add your handling code here:
         try {
+            conn1 = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/XE", "market", "123456789");
+
             Statement st = conn1.createStatement();
-            String querySQL = "insert into PRODUCT_CATEGORIES values ('"
-                    + categoryID.getText().toString() + "','"
-                    + categoryName.getText().toString() + "')";
+            String querySQL = "insert into CUSTOMERS values ("
+                    + customerID.getText() + ",'"
+                    + custName.getText() + "','"
+                    + address.getText() + "','"
+                    + website.getText() + "',"
+                    + creditLimit.getText() + ")";
             st.executeUpdate(querySQL);
 
         } catch (SQLException ex) {
-            java.util.logging.Logger.getLogger(addProduct.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(addCustomer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
         this.setVisible(false);
-        categoryProduct cp = new categoryProduct();
+        Customers c = new Customers();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        cp.setAlwaysOnTop(true);
-        cp.setBounds(0 + 200, 0 + 200, screenSize.width - 400, screenSize.height - 400);
-        cp.toFront();
-        cp.requestFocus();
-        cp.setVisible(true);
-        cp.toFront();
-        cp.requestFocus();
+        c.setAlwaysOnTop(true);
+        c.setBounds(0 + 200, 0 + 200, screenSize.width - 400, screenSize.height - 400);
+        c.toFront();
+        c.requestFocus();
+        c.setVisible(true);
+        c.toFront();
+        c.requestFocus();
     }//GEN-LAST:event_saveActionPerformed
 
     private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
         // TODO add your handling code here:
         try {
+            conn1 = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/XE", "market", "123456789");
+
             if (conn1 != null) {
                 Statement st = conn1.createStatement();
-                String querySQL = "";
+                String querySQL = "delete from CUSTOMERS where CUSTOMER_ID=" + customerID.getText() + "";
+                st.executeUpdate(querySQL);
             }
         } catch (SQLException ex) {
-            java.util.logging.Logger.getLogger(addProduct.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(addCustomer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
         this.setVisible(false);
-        categoryProduct k = new categoryProduct();
+        Customers c = new Customers();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        k.setAlwaysOnTop(true);
-        k.setBounds(0 + 200, 0 + 200, screenSize.width - 400, screenSize.height - 400);
-        k.toFront();
-        k.requestFocus();
-        k.setVisible(true);
-        k.toFront();
-        k.requestFocus();
+        c.setAlwaysOnTop(true);
+        c.setBounds(0 + 200, 0 + 200, screenSize.width - 400, screenSize.height - 400);
+        c.toFront();
+        c.requestFocus();
+        c.setVisible(true);
+        c.toFront();
+        c.requestFocus();
     }//GEN-LAST:event_deleteActionPerformed
 
     private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        categoryProduct k = new categoryProduct();
+        Customers c = new Customers();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        k.setAlwaysOnTop(true);
-        k.setBounds(0 + 200, 0 + 200, screenSize.width - 400, screenSize.height - 400);
-        k.toFront();
-        k.requestFocus();
+        c.setAlwaysOnTop(true);
+        c.setBounds(0 + 200, 0 + 200, screenSize.width - 400, screenSize.height - 400);
+        c.toFront();
+        c.requestFocus();
 
-        k.setVisible(true);
+        c.setVisible(true);
     }//GEN-LAST:event_cancelActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        // TODO add your handling code here:
+        try {
+            Class.forName("oracle.jdbc.OracleDriver");
+
+            conn1 = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/XE", "market", "123456789");
+
+//            Statement st = conn1.createStatement();
+        } catch (ClassNotFoundException ex) {
+
+        } catch (SQLException ex) {
+
+        }
+    }//GEN-LAST:event_formComponentShown
 
     /**
      * @param args the command line arguments
@@ -248,33 +316,41 @@ public class addCategory extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(addCategory.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(addCustomer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(addCategory.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(addCustomer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(addCategory.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(addCustomer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(addCategory.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(addCustomer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new addCategory().setVisible(true);
+                new addCustomer().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JTextArea address;
     public javax.swing.JButton cancel;
-    public javax.swing.JTextField categoryID;
-    public javax.swing.JTextField categoryName;
+    public javax.swing.JTextField creditLimit;
+    public javax.swing.JTextField custName;
+    public javax.swing.JTextField customerID;
     public javax.swing.JButton delete;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JButton save;
     public javax.swing.JButton update;
+    public javax.swing.JTextField website;
     // End of variables declaration//GEN-END:variables
 }

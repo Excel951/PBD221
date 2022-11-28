@@ -4,8 +4,6 @@
  */
 package ProgramPraktikum9;
 
-import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 import java.sql.Statement;
@@ -52,12 +50,12 @@ public class ProgEmp extends javax.swing.JFrame {
         salary = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         job = new javax.swing.JTextField();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
         add = new javax.swing.JButton();
         update = new javax.swing.JButton();
         delete = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         regionName = new javax.swing.JTextField();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -103,7 +101,7 @@ public class ProgEmp extends javax.swing.JFrame {
             }
         });
 
-        jLabel6.setText("Enter Date");
+        jLabel6.setText("Hire Date");
 
         jLabel7.setText("Salary");
 
@@ -145,13 +143,13 @@ public class ProgEmp extends javax.swing.JFrame {
                                 .addGap(23, 23, 23)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(employeeID, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(firstName)
+                                    .addComponent(firstName, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
                                     .addComponent(lastName)
                                     .addComponent(email)
                                     .addComponent(noPhone)
                                     .addComponent(salary)
-                                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
-                                    .addComponent(job)))
+                                    .addComponent(job)
+                                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(add)
                                 .addGap(18, 18, 18)
@@ -191,11 +189,11 @@ public class ProgEmp extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(noPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(12, 12, 12)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel6)
                     .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(8, 8, 8)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
                     .addComponent(salary, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -231,11 +229,13 @@ public class ProgEmp extends javax.swing.JFrame {
             employeeID.disable();
             firstName.setText(jTable1.getValueAt(baris, 1).toString());
             lastName.setText(jTable1.getValueAt(baris, 2).toString());
-            email.setText(jTable1.getValueAt(baris, 2).toString());
-            noPhone.setText(jTable1.getValueAt(baris, 2).toString());
-            jDateChooser1.getDate();
-            .setText(jTable1.getValueAt(baris, 2).toString());
-            lastName.setText(jTable1.getValueAt(baris, 2).toString());
+            email.setText(jTable1.getValueAt(baris, 3).toString());
+            noPhone.setText(jTable1.getValueAt(baris, 4).toString());
+//            jDateChooser1.getDate(jTable1.getValueAt(baris, 4));
+            jDateChooser1.setDate((java.util.Date) jTable1.getValueAt(baris, 5));
+            salary.setText(jTable1.getValueAt(baris, 6).toString());
+            job.setText(jTable1.getValueAt(baris, 7).toString());
+//            regionName.setText();
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
@@ -244,12 +244,27 @@ public class ProgEmp extends javax.swing.JFrame {
         try {
             Class.forName("oracle.jdbc.OracleDriver");
 
-            conn1 = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/XE", "market", "123456789");
+            conn1 = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "hr", "hr");
 
             Statement st = conn1.createStatement();
 
             if (conn1 != null) {
-                rs = st.executeQuery("select * from employees order by employee_id desc");
+                rs = st.executeQuery("SELECT "
+                        + "	e.EMPLOYEE_ID ,"
+                        + "	e.FIRST_NAME ,"
+                        + "	e.LAST_NAME ,"
+                        + "	e.EMAIL ,"
+                        + "	e.PHONE_NUMBER ,"
+                        + "	e.HIRE_DATE ,"
+                        + "	e.SALARY ,"
+                        + "	j.JOB_TITLE "
+//                        + "	r.REGION_NAME "
+                        + "FROM EMPLOYEES e "
+                        + "JOIN DEPARTMENTS d ON e.DEPARTMENT_ID = d.DEPARTMENT_ID "
+                        + "JOIN LOCATIONS l ON d.LOCATION_ID = l.LOCATION_ID "
+                        + "JOIN COUNTRIES c ON l.COUNTRY_ID = c.COUNTRY_ID "
+                        + "JOIN REGIONS r ON c.REGION_ID = r.REGION_ID "
+                        + "JOIN JOBS j ON j.JOB_ID = e.JOB_ID order by e.employee_id desc;");
                 DefaultTableModel dtm = new DefaultTableModel();
                 dtm.addColumn("ID");
                 dtm.addColumn("First Name");
@@ -257,19 +272,19 @@ public class ProgEmp extends javax.swing.JFrame {
                 dtm.addColumn("Email");
                 dtm.addColumn("Phone");
                 dtm.addColumn("Hire Date");
-                dtm.addColumn("Manager ID");
+                dtm.addColumn("Salary");
                 dtm.addColumn("Job");
                 while (rs.next()) {
                     String id = rs.getString("EMPLOYEE_ID");
                     String first_name = rs.getString("FIRST_NAME");
                     String last_name = rs.getString("LAST_NAME");
                     String email = rs.getString("EMAIL");
-                    String phone = rs.getString("PHONE");
+                    String phone = rs.getString("PHONE_NUMBER");
                     String date = rs.getString("HIRE_DATE");
-                    String mgr_id = rs.getString("MANAGER_ID");
+                    String mgr_id = rs.getString("SALARY");
                     String job = rs.getString("JOB_TITLE");
-                    
-                    dtm.addRow(new Object []{id, first_name, last_name, email, phone, date, mgr_id, job});
+
+                    dtm.addRow(new Object[]{id, first_name, last_name, email, phone, date, mgr_id, job});
                 }
                 jTable1.setModel(dtm);
             }

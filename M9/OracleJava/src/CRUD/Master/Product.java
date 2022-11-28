@@ -2,12 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package CRUD;
+package CRUD.Master;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
+import CRUD.addProduct;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 import java.sql.Statement;
@@ -153,7 +150,7 @@ public class Product extends javax.swing.JFrame {
                 }
                 jTable1.setModel(model);
 
-                conn1.close();
+//                conn1.close();
             } else {
 
             }
@@ -173,11 +170,20 @@ public class Product extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.setVisible(false);
         addProduct k = new addProduct();
+        try {
+            Statement st = conn1.createStatement();
+            rs = st.executeQuery("select * from PRODUCT_CATEGORIES");
+            while (rs.next()) {
+                k.categoryID.addItem(rs.getString("CATEGORY_NAME"));
+            }
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
 //        k.productID.setVisible(true);
         k.save.setVisible(true);
         k.update.setVisible(false);
         k.delete.setVisible(false);
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+//        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         k.setAlwaysOnTop(true);
         k.setBounds(0 + 200, 0 + 200, 400, 600);
         k.toFront();
@@ -190,41 +196,52 @@ public class Product extends javax.swing.JFrame {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
-        int baris = jTable1.getSelectedRow();
-        this.setVisible(false);
         addProduct k = new addProduct();
-        k.setVisible(true);
+        Statement st;
+        try {
+            st = conn1.createStatement();
+            rs = st.executeQuery("select * from PRODUCT_CATEGORIES");
+            while (rs.next()) {
+                k.categoryID.addItem(rs.getString("CATEGORY_NAME"));
+            }
+            int baris = jTable1.getSelectedRow();
+            this.setVisible(false);
+            k.setVisible(true);
 //        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        k.setAlwaysOnTop(true);
-        k.setBounds(0 + 200, 0 + 200, 400, 600);
-        k.toFront();
-        k.requestFocus();
-        if (baris != -1) {
-            int pilih = (Integer.valueOf(jTable1.getValueAt(baris, 5).toString()) - 2);
-            k.productID.setText(jTable1.getValueAt(baris, 0).toString());
-            k.productID.disable();
-            k.productionName.setText(jTable1.getValueAt(baris, 1).toString());
-            k.description.setText(jTable1.getValueAt(baris, 2).toString());
-            k.standardCost.setText(jTable1.getValueAt(baris, 3).toString());
-            k.listPrice.setText(jTable1.getValueAt(baris, 4).toString());
-            k.categoryID.setSelectedIndex(pilih);
-            k.save.setVisible(false);
-            k.update.setVisible(true);
-            k.delete.setVisible(true);
+            k.setAlwaysOnTop(true);
+            k.setBounds(0 + 200, 0 + 200, 400, 600);
+            k.toFront();
+            k.requestFocus();
+            if (baris != -1) {
+                int pilih = (Integer.valueOf(jTable1.getValueAt(baris, 5).toString()) - 1);
+                k.productID.setText(jTable1.getValueAt(baris, 0).toString());
+                k.productID.disable();
+                k.productionName.setText(jTable1.getValueAt(baris, 1).toString());
+                k.description.setText(jTable1.getValueAt(baris, 2).toString());
+                k.standardCost.setText(jTable1.getValueAt(baris, 3).toString());
+                k.listPrice.setText(jTable1.getValueAt(baris, 4).toString());
+                k.categoryID.setSelectedIndex(pilih);
+                k.save.setVisible(false);
+                k.update.setVisible(true);
+                k.delete.setVisible(true);
+            }
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        Menu k = new Menu();
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        k.setAlwaysOnTop(true);
+//        Menu k = new Menu();
+//        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+//        k.setAlwaysOnTop(true);
 //        k.setBounds(0 + 200, 0 + 200, screenSize.width - 400, screenSize.height - 400);
-        k.toFront();
-        k.requestFocus();
-
-        k.setVisible(true);
+//        k.toFront();
+//        k.requestFocus();
+//        k.setVisible(true);
+//        k.toFront();
+//        k.requestFocus();
     }//GEN-LAST:event_cancelActionPerformed
 
     /**

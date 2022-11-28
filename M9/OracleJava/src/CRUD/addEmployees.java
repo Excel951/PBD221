@@ -4,27 +4,27 @@
  */
 package CRUD;
 
+import CRUD.Master.Employees;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
-import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 
 /**
  *
  * @author Invinity
  */
-public class addCategory extends javax.swing.JFrame {
+public class addEmployees extends javax.swing.JFrame {
 
     public Connection conn1;
     public static ResultSet rs;
+    public static SimpleDateFormat sdf = new SimpleDateFormat();
 
     /**
      * Creates new form addCategory
      */
-    public addCategory() {
+    public addEmployees() {
         initComponents();
     }
 
@@ -39,22 +39,46 @@ public class addCategory extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        categoryID = new javax.swing.JTextField();
+        empID = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        categoryName = new javax.swing.JTextField();
+        firstName = new javax.swing.JTextField();
         save = new javax.swing.JButton();
         update = new javax.swing.JButton();
         delete = new javax.swing.JButton();
         cancel = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        phone = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        lastName = new javax.swing.JTextField();
+        email = new javax.swing.JTextField();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        mgrID = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        job = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(588, 440));
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jLabel1.setText("ADD CATEGORY");
+        jLabel1.setText("ADD CUSTOMERS");
 
-        jLabel2.setText("Category ID");
+        jLabel2.setText("Employee ID");
 
-        jLabel3.setText("Category Name");
+        jLabel3.setText("First Name");
+
+        firstName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                firstNameActionPerformed(evt);
+            }
+        });
 
         save.setText("Save");
         save.addActionListener(new java.awt.event.ActionListener() {
@@ -84,6 +108,20 @@ public class addCategory extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setText("Email");
+
+        jLabel5.setText("Phone");
+
+        jLabel6.setText("Hire Date");
+
+        jLabel7.setText("Last Name");
+
+        jDateChooser1.setDateFormatString("yyyy-MM-dd");
+
+        jLabel10.setText("Manager ID");
+
+        jLabel11.setText("Job Title");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -91,32 +129,55 @@ public class addCategory extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(133, 133, 133)
+                                .addComponent(jLabel1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lastName, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(122, 122, 122))
+                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(save)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(update)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(delete))
-                            .addComponent(categoryName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
-                        .addComponent(cancel))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(delete)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 276, Short.MAX_VALUE)
+                                .addComponent(cancel))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(140, 140, 140)
-                                .addComponent(jLabel1))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel2))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(categoryID, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel3)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(phone, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel5)
+                                    .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel3)
+                                            .addComponent(firstName, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(job, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel11)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel2)
+                                            .addComponent(empID, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(mgrID, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel10))))
+                                .addGap(17, 17, 17)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -125,14 +186,42 @@ public class addCategory extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(categoryID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(empID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(mgrID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(firstName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(job, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(categoryName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 131, Short.MAX_VALUE)
+                .addComponent(lastName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(phone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(save)
                     .addComponent(update)
@@ -147,89 +236,131 @@ public class addCategory extends javax.swing.JFrame {
     private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
         // TODO add your handling code here:
         try {
+            conn1 = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/XE", "market", "123456789");
+
+            sdf.applyPattern(jDateChooser1.getDateFormatString());
+
             if (conn1 != null) {
                 Statement st = conn1.createStatement();
-                String querySQL = "update PRODUCT_CATEGORIES set "
-                        + "CATEGORY_ID='" + categoryID.getText().toString()
-                        + "', CATEGORY_NAME='" + categoryName.getText().toString() + "'";
-                st.executeUpdate(querySQL);
+                String querySQL = "UPDATE EMPLOYEES SET FIRST_NAME='" + firstName.getText()
+                        + "', LAST_NAME='" + lastName.getText()
+                        + "', EMAIL='" + email.getText()
+                        + "', PHONE='" + phone.getText()
+                        + "', HIRE_DATE=TO_DATE('" + sdf.format(jDateChooser1.getDate()) + "','YYYY-MM-DD')"
+                        + ", MANAGER_ID='" + mgrID.getText()
+                        + "', JOB_TITLE='" + job.getText()
+                        + "' WHERE EMPLOYEE_ID=" + empID.getText() + "";
+                st.execute(querySQL);
             }
         } catch (SQLException ex) {
-            java.util.logging.Logger.getLogger(addProduct.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(addEmployees.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
         this.setVisible(false);
-        categoryProduct cp = new categoryProduct();
+        Employees c = new Employees();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        cp.setAlwaysOnTop(true);
-        cp.setBounds(0 + 200, 0 + 200, screenSize.width - 400, screenSize.height - 400);
-        cp.toFront();
-        cp.requestFocus();
-        cp.setVisible(true);
-        cp.toFront();
-        cp.requestFocus();
+        c.setAlwaysOnTop(true);
+        c.setBounds(0 + 200, 0 + 200, screenSize.width - 400, screenSize.height - 400);
+        c.toFront();
+        c.requestFocus();
+        c.setVisible(true);
+        c.toFront();
+        c.requestFocus();
     }//GEN-LAST:event_updateActionPerformed
 
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
         // TODO add your handling code here:
         try {
+            conn1 = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/XE", "market", "123456789");
+
             Statement st = conn1.createStatement();
-            String querySQL = "insert into PRODUCT_CATEGORIES values ('"
-                    + categoryID.getText().toString() + "','"
-                    + categoryName.getText().toString() + "')";
+            
+            sdf.applyPattern(jDateChooser1.getDateFormatString());
+            
+            String querySQL = "insert into EMPLOYEES values ("
+                    + empID.getText() + ",'"
+                    + firstName.getText() + "','"
+                    + lastName.getText() + "','"
+                    + email.getText() + "','"
+                    + phone.getText()
+                    + "', TO_DATE('" + sdf.format(jDateChooser1.getDate()) + "','YYYY-MM-DD'),"
+                    + mgrID.getText() + ",'"
+                    + job.getText() + "')";
             st.executeUpdate(querySQL);
 
         } catch (SQLException ex) {
-            java.util.logging.Logger.getLogger(addProduct.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(addEmployees.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
         this.setVisible(false);
-        categoryProduct cp = new categoryProduct();
+        Employees c = new Employees();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        cp.setAlwaysOnTop(true);
-        cp.setBounds(0 + 200, 0 + 200, screenSize.width - 400, screenSize.height - 400);
-        cp.toFront();
-        cp.requestFocus();
-        cp.setVisible(true);
-        cp.toFront();
-        cp.requestFocus();
+        c.setAlwaysOnTop(true);
+        c.setBounds(0 + 200, 0 + 200, screenSize.width - 400, screenSize.height - 400);
+        c.toFront();
+        c.requestFocus();
+        c.setVisible(true);
+        c.toFront();
+        c.requestFocus();
     }//GEN-LAST:event_saveActionPerformed
 
     private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
         // TODO add your handling code here:
         try {
+            conn1 = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/XE", "market", "123456789");
+
             if (conn1 != null) {
                 Statement st = conn1.createStatement();
-                String querySQL = "";
+                String querySQL = "delete from EMPLOYEES where EMPLOYEE_ID=" + empID.getText() + "";
+                st.executeUpdate(querySQL);
             }
         } catch (SQLException ex) {
-            java.util.logging.Logger.getLogger(addProduct.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(addEmployees.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
         this.setVisible(false);
-        categoryProduct k = new categoryProduct();
+        Employees c = new Employees();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        k.setAlwaysOnTop(true);
-        k.setBounds(0 + 200, 0 + 200, screenSize.width - 400, screenSize.height - 400);
-        k.toFront();
-        k.requestFocus();
-        k.setVisible(true);
-        k.toFront();
-        k.requestFocus();
+        c.setAlwaysOnTop(true);
+        c.setBounds(0 + 200, 0 + 200, screenSize.width - 400, screenSize.height - 400);
+        c.toFront();
+        c.requestFocus();
+        c.setVisible(true);
+        c.toFront();
+        c.requestFocus();
     }//GEN-LAST:event_deleteActionPerformed
 
     private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        categoryProduct k = new categoryProduct();
+        Employees e = new Employees();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        k.setAlwaysOnTop(true);
-        k.setBounds(0 + 200, 0 + 200, screenSize.width - 400, screenSize.height - 400);
-        k.toFront();
-        k.requestFocus();
+        e.setAlwaysOnTop(true);
+        e.setBounds(0 + 200, 0 + 200, screenSize.width - 400, screenSize.height - 400);
+        e.toFront();
+        e.requestFocus();
 
-        k.setVisible(true);
+        e.setVisible(true);
     }//GEN-LAST:event_cancelActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        // TODO add your handling code here:
+        try {
+            Class.forName("oracle.jdbc.OracleDriver");
+
+            conn1 = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/XE", "market", "123456789");
+
+//            Statement st = conn1.createStatement();
+        } catch (ClassNotFoundException ex) {
+
+        } catch (SQLException ex) {
+
+        }
+    }//GEN-LAST:event_formComponentShown
+
+    private void firstNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_firstNameActionPerformed
 
     /**
      * @param args the command line arguments
@@ -248,32 +379,47 @@ public class addCategory extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(addCategory.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(addEmployees.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(addCategory.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(addEmployees.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(addCategory.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(addEmployees.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(addCategory.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(addEmployees.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new addCategory().setVisible(true);
+                new addEmployees().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton cancel;
-    public javax.swing.JTextField categoryID;
-    public javax.swing.JTextField categoryName;
     public javax.swing.JButton delete;
+    public javax.swing.JTextField email;
+    public javax.swing.JTextField empID;
+    public javax.swing.JTextField firstName;
+    public com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    public javax.swing.JTextField job;
+    public javax.swing.JTextField lastName;
+    public javax.swing.JTextField mgrID;
+    public javax.swing.JTextField phone;
     public javax.swing.JButton save;
     public javax.swing.JButton update;
     // End of variables declaration//GEN-END:variables

@@ -4,11 +4,9 @@
  */
 package CRUD;
 
+import CRUD.Master.CategoryProduct;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
-import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 import java.sql.Statement;
 
@@ -48,9 +46,14 @@ public class addCategory extends javax.swing.JFrame {
         cancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jLabel1.setText("ADD CATEGORY");
+        jLabel1.setText("ADD CATEGORY PRODUCT");
 
         jLabel2.setText("Category ID");
 
@@ -105,9 +108,6 @@ public class addCategory extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(140, 140, 140)
-                                .addComponent(jLabel1))
-                            .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(jLabel2))
                             .addGroup(layout.createSequentialGroup()
@@ -116,8 +116,12 @@ public class addCategory extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(jLabel3)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 295, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(100, 100, 100))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -147,19 +151,21 @@ public class addCategory extends javax.swing.JFrame {
     private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
         // TODO add your handling code here:
         try {
+            conn1 = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/XE", "market", "123456789");
+
             if (conn1 != null) {
                 Statement st = conn1.createStatement();
-                String querySQL = "update PRODUCT_CATEGORIES set "
-                        + "CATEGORY_ID='" + categoryID.getText().toString()
-                        + "', CATEGORY_NAME='" + categoryName.getText().toString() + "'";
-                st.executeUpdate(querySQL);
+                String querySQL = "UPDATE PRODUCT_CATEGORIES SET CATEGORY_NAME ='"
+                        + categoryName.getText().toString() 
+                        + "' WHERE CATEGORY_ID = " + categoryID.getText().toString();
+                st.execute(querySQL);
             }
         } catch (SQLException ex) {
-            java.util.logging.Logger.getLogger(addProduct.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(addCategory.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
         this.setVisible(false);
-        categoryProduct cp = new categoryProduct();
+        CategoryProduct cp = new CategoryProduct();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         cp.setAlwaysOnTop(true);
         cp.setBounds(0 + 200, 0 + 200, screenSize.width - 400, screenSize.height - 400);
@@ -173,6 +179,8 @@ public class addCategory extends javax.swing.JFrame {
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
         // TODO add your handling code here:
         try {
+            conn1 = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/XE", "market", "123456789");
+
             Statement st = conn1.createStatement();
             String querySQL = "insert into PRODUCT_CATEGORIES values ('"
                     + categoryID.getText().toString() + "','"
@@ -180,11 +188,11 @@ public class addCategory extends javax.swing.JFrame {
             st.executeUpdate(querySQL);
 
         } catch (SQLException ex) {
-            java.util.logging.Logger.getLogger(addProduct.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(addCategory.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
         this.setVisible(false);
-        categoryProduct cp = new categoryProduct();
+        CategoryProduct cp = new CategoryProduct();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         cp.setAlwaysOnTop(true);
         cp.setBounds(0 + 200, 0 + 200, screenSize.width - 400, screenSize.height - 400);
@@ -198,16 +206,19 @@ public class addCategory extends javax.swing.JFrame {
     private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
         // TODO add your handling code here:
         try {
+            conn1 = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/XE", "market", "123456789");
+
             if (conn1 != null) {
                 Statement st = conn1.createStatement();
-                String querySQL = "";
+                String querySQL = "delete from PRODUCT_CATEGORIES where CATEGORY_ID=" + categoryID.getText() + "";
+                st.executeUpdate(querySQL);
             }
         } catch (SQLException ex) {
-            java.util.logging.Logger.getLogger(addProduct.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(addCategory.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
         this.setVisible(false);
-        categoryProduct k = new categoryProduct();
+        CategoryProduct k = new CategoryProduct();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         k.setAlwaysOnTop(true);
         k.setBounds(0 + 200, 0 + 200, screenSize.width - 400, screenSize.height - 400);
@@ -221,7 +232,7 @@ public class addCategory extends javax.swing.JFrame {
     private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        categoryProduct k = new categoryProduct();
+        CategoryProduct k = new CategoryProduct();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         k.setAlwaysOnTop(true);
         k.setBounds(0 + 200, 0 + 200, screenSize.width - 400, screenSize.height - 400);
@@ -230,6 +241,21 @@ public class addCategory extends javax.swing.JFrame {
 
         k.setVisible(true);
     }//GEN-LAST:event_cancelActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        // TODO add your handling code here:
+        try {
+            Class.forName("oracle.jdbc.OracleDriver");
+
+            conn1 = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/XE", "market", "123456789");
+
+//            Statement st = conn1.createStatement();
+        } catch (ClassNotFoundException ex) {
+
+        } catch (SQLException ex) {
+
+        }
+    }//GEN-LAST:event_formComponentShown
 
     /**
      * @param args the command line arguments

@@ -2,21 +2,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package CRUD;
+package CRUD.Master;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
+import CRUD.addEmployees;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 /**
  *
  * @author Invinity
  */
-public class Product extends javax.swing.JFrame {
+public class Employees extends javax.swing.JFrame {
 
     public Connection conn1;
     public static ResultSet rs;
@@ -24,7 +23,7 @@ public class Product extends javax.swing.JFrame {
     /**
      * Creates new form Product
      */
-    public Product() {
+    public Employees() {
         initComponents();
     }
 
@@ -131,29 +130,31 @@ public class Product extends javax.swing.JFrame {
             Statement st = conn1.createStatement();
 
             if (conn1 != null) {
-//                int i = 0;
-//                st = conn1.createStatement();
-                rs = st.executeQuery("select * from products order by product_id desc ");
+                rs = st.executeQuery("select * from EMPLOYEES order by EMPLOYEE_ID desc ");
                 DefaultTableModel model = new DefaultTableModel();
                 model.addColumn("ID");
-                model.addColumn("NAME");
-                model.addColumn("DESCRIPTION");
-                model.addColumn("COST");
-                model.addColumn("PRICE");
-                model.addColumn("CATEGORY");
+                model.addColumn("FIRST NAME");
+                model.addColumn("LAST NAME");
+                model.addColumn("EMAIL");
+                model.addColumn("PHONE");
+                model.addColumn("HIRE DATE");
+                model.addColumn("MANAGER ID");
+                model.addColumn("JOB");
                 while (rs.next()) {
-                    String id = rs.getString("PRODUCT_ID");
-                    String name = rs.getString("PRODUCT_NAME");
-                    String description = rs.getString("DESCRIPTION");
-                    String cost = rs.getString("STANDARD_COST");
-                    String price = rs.getString("LIST_PRICE");
-                    String category = rs.getString("CATEGORY_ID");
+                    String id = rs.getString("EMPLOYEE_ID");
+                    String firstName = rs.getString("FIRST_NAME");
+                    String lastName = rs.getString("LAST_NAME");
+                    String email = rs.getString("EMAIL");
+                    String phone = rs.getString("PHONE");
+                    String hireDate = rs.getString("HIRE_DATE");
+                    String mgrID = rs.getString("MANAGER_ID");
+                    String job = rs.getString("JOB_TITLE");
 
-                    model.addRow(new Object[]{id, name, description, cost, price, category});
+                    model.addRow(new Object[]{id, firstName, lastName, email, phone, hireDate, mgrID, job});
                 }
                 jTable1.setModel(model);
 
-                conn1.close();
+//                conn1.close();
             } else {
 
             }
@@ -161,7 +162,7 @@ public class Product extends javax.swing.JFrame {
 //            System.out.println(ex.getMessage());
 //            Logger.getLogger(Product.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Employees.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_formComponentShown
 
@@ -172,59 +173,68 @@ public class Product extends javax.swing.JFrame {
     private void tambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tambahActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        addProduct k = new addProduct();
-//        k.productID.setVisible(true);
-        k.save.setVisible(true);
-        k.update.setVisible(false);
-        k.delete.setVisible(false);
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        k.setAlwaysOnTop(true);
-        k.setBounds(0 + 200, 0 + 200, 400, 600);
-        k.toFront();
-        k.requestFocus();
-        k.setVisible(true);
-        k.toFront();
-        k.requestFocus();
+        addEmployees ae = new addEmployees();
+        ae.save.setVisible(true);
+        ae.update.setVisible(false);
+        ae.delete.setVisible(false);
+        ae.setAlwaysOnTop(true);
+        ae.setBounds(0 + 200, 0 + 200, 400, 600);
+        ae.toFront();
+        ae.requestFocus();
+        ae.setVisible(true);
+        ae.toFront();
+        ae.requestFocus();
 
     }//GEN-LAST:event_tambahActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
-        int baris = jTable1.getSelectedRow();
-        this.setVisible(false);
-        addProduct k = new addProduct();
-        k.setVisible(true);
-//        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        k.setAlwaysOnTop(true);
-        k.setBounds(0 + 200, 0 + 200, 400, 600);
-        k.toFront();
-        k.requestFocus();
-        if (baris != -1) {
-            int pilih = (Integer.valueOf(jTable1.getValueAt(baris, 5).toString()) - 2);
-            k.productID.setText(jTable1.getValueAt(baris, 0).toString());
-            k.productID.disable();
-            k.productionName.setText(jTable1.getValueAt(baris, 1).toString());
-            k.description.setText(jTable1.getValueAt(baris, 2).toString());
-            k.standardCost.setText(jTable1.getValueAt(baris, 3).toString());
-            k.listPrice.setText(jTable1.getValueAt(baris, 4).toString());
-            k.categoryID.setSelectedIndex(pilih);
-            k.save.setVisible(false);
-            k.update.setVisible(true);
-            k.delete.setVisible(true);
+        try {
+            addEmployees ae = new addEmployees();
+
+            SimpleDateFormat sdf = new SimpleDateFormat();
+            sdf.applyPattern(ae.jDateChooser1.getDateFormatString());
+
+            int baris = jTable1.getSelectedRow();
+            this.setVisible(false);
+            ae.setVisible(true);
+            ae.setAlwaysOnTop(true);
+            ae.setBounds(0 + 200, 0 + 200, 440, 600);
+            ae.toFront();
+            ae.requestFocus();
+            if (baris != -1) {
+                ae.empID.setText(jTable1.getValueAt(baris, 0).toString());
+                ae.empID.disable();
+                ae.firstName.setText(jTable1.getValueAt(baris, 1).toString());
+                ae.lastName.setText(jTable1.getValueAt(baris, 2).toString());
+                ae.email.setText(jTable1.getValueAt(baris, 3).toString());
+                ae.phone.setText(jTable1.getValueAt(baris, 4).toString());
+                ae.mgrID.setText(jTable1.getValueAt(baris, 6).toString());
+                ae.job.setText(jTable1.getValueAt(baris, 7).toString());
+                
+                ae.jDateChooser1.setDate(sdf.parse((String) jTable1.getValueAt(baris, 5)));
+                
+                ae.save.setVisible(false);
+                ae.update.setVisible(true);
+                ae.delete.setVisible(true);
+            }
+        } catch (ParseException ex) {
+            java.util.logging.Logger.getLogger(Employees.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        Menu k = new Menu();
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        k.setAlwaysOnTop(true);
-//        k.setBounds(0 + 200, 0 + 200, screenSize.width - 400, screenSize.height - 400);
-        k.toFront();
-        k.requestFocus();
-
-        k.setVisible(true);
+//        Menu ae = new Menu();
+//        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+//        ae.setAlwaysOnTop(true);
+//        ae.setBounds(0 + 200, 0 + 200, screenSize.width - 400, screenSize.height - 400);
+//        ae.toFront();
+//        ae.requestFocus();
+//        ae.setVisible(true);
+//        ae.toFront();
+//        ae.requestFocus();
     }//GEN-LAST:event_cancelActionPerformed
 
     /**
@@ -244,20 +254,27 @@ public class Product extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Employees.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Employees.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Employees.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Employees.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Product().setVisible(true);
+                new Employees().setVisible(true);
             }
         });
     }

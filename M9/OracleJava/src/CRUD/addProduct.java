@@ -4,6 +4,7 @@
  */
 package CRUD;
 
+import CRUD.Master.Product;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.sql.Connection;
@@ -226,14 +227,14 @@ public class addProduct extends javax.swing.JFrame {
             Statement st = conn1.createStatement();
 
             if (conn1 != null) {
-                int i = 0;
+//                int i = 0;
                 st = conn1.createStatement();
-                rs = st.executeQuery("select * from product_categories");
-                categoryID.removeAllItems();
-                while (rs.next()) {
-                    categoryID.addItem(rs.getString("CATEGORY_NAME"));
-                }
-                //conn1.close(); 
+//                rs = st.executeQuery("select * from product_categories");
+//                categoryID.removeAllItems();
+//                while (rs.next()) {
+//                    categoryID.addItem(rs.getString("CATEGORY_NAME"));
+//                }
+//                conn1.close(); 
             } else {
 
             }
@@ -254,8 +255,8 @@ public class addProduct extends javax.swing.JFrame {
                         + "'" + productID.getText().toString()
                         + "','" + productionName.getText().toString()
                         + "','" + description.getText().toString()
-                        + "'," + Integer.valueOf(standardCost.getText())
-                        + "," + Integer.valueOf(listPrice.getText())
+                        + "'," + Double.parseDouble(standardCost.getText())
+                        + "," + Double.parseDouble(listPrice.getText())
                         + "," + (categoryID.getSelectedIndex() + 1) + ")";
                 st.executeUpdate(sql);
 
@@ -284,8 +285,8 @@ public class addProduct extends javax.swing.JFrame {
                 String sql = "UPDATE PRODUCTS set "
                         + "PRODUCT_NAME='" + productionName.getText().toString()
                         + "',DESCRIPTION='" + description.getText().toString()
-                        + "',STANDARD_COST=" + Integer.valueOf(standardCost.getText())
-                        + ",LIST_PRICE=" + Integer.valueOf(listPrice.getText())
+                        + "',STANDARD_COST=" + Double.parseDouble(standardCost.getText())
+                        + ",LIST_PRICE=" + Double.parseDouble(listPrice.getText())
                         + ",CATEGORY_ID=" + (categoryID.getSelectedIndex() + 1)
                         + "where PRODUCT_ID='" + productID.getText().toString() + "'";
                 st.executeUpdate(sql);

@@ -2,12 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package CRUD;
+package CRUD.Master;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
+import CRUD.addCustomer;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 import java.sql.Statement;
@@ -16,7 +13,7 @@ import java.sql.Statement;
  *
  * @author Invinity
  */
-public class Product extends javax.swing.JFrame {
+public class Customers extends javax.swing.JFrame {
 
     public Connection conn1;
     public static ResultSet rs;
@@ -24,7 +21,7 @@ public class Product extends javax.swing.JFrame {
     /**
      * Creates new form Product
      */
-    public Product() {
+    public Customers() {
         initComponents();
     }
 
@@ -131,29 +128,25 @@ public class Product extends javax.swing.JFrame {
             Statement st = conn1.createStatement();
 
             if (conn1 != null) {
-//                int i = 0;
-//                st = conn1.createStatement();
-                rs = st.executeQuery("select * from products order by product_id desc ");
+                rs = st.executeQuery("select * from CUSTOMERS order by CUSTOMER_ID desc ");
                 DefaultTableModel model = new DefaultTableModel();
                 model.addColumn("ID");
                 model.addColumn("NAME");
-                model.addColumn("DESCRIPTION");
-                model.addColumn("COST");
-                model.addColumn("PRICE");
-                model.addColumn("CATEGORY");
+                model.addColumn("ADDRESS");
+                model.addColumn("WEBSITE");
+                model.addColumn("CREDIT LIMIT");
                 while (rs.next()) {
-                    String id = rs.getString("PRODUCT_ID");
-                    String name = rs.getString("PRODUCT_NAME");
-                    String description = rs.getString("DESCRIPTION");
-                    String cost = rs.getString("STANDARD_COST");
-                    String price = rs.getString("LIST_PRICE");
-                    String category = rs.getString("CATEGORY_ID");
+                    String id = rs.getString("CUSTOMER_ID");
+                    String name = rs.getString("NAME");
+                    String address = rs.getString("ADDRESS");
+                    String website = rs.getString("WEBSITE");
+                    String creditLimit = rs.getString("CREDIT_LIMIT");
 
-                    model.addRow(new Object[]{id, name, description, cost, price, category});
+                    model.addRow(new Object[]{id, name, address, website, creditLimit});
                 }
                 jTable1.setModel(model);
 
-                conn1.close();
+//                conn1.close();
             } else {
 
             }
@@ -161,7 +154,7 @@ public class Product extends javax.swing.JFrame {
 //            System.out.println(ex.getMessage());
 //            Logger.getLogger(Product.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Customers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_formComponentShown
 
@@ -172,12 +165,12 @@ public class Product extends javax.swing.JFrame {
     private void tambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tambahActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        addProduct k = new addProduct();
+        addCustomer k = new addCustomer();
 //        k.productID.setVisible(true);
         k.save.setVisible(true);
         k.update.setVisible(false);
         k.delete.setVisible(false);
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+//        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         k.setAlwaysOnTop(true);
         k.setBounds(0 + 200, 0 + 200, 400, 600);
         k.toFront();
@@ -190,24 +183,23 @@ public class Product extends javax.swing.JFrame {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
+        addCustomer k = new addCustomer();
+        Statement st;
         int baris = jTable1.getSelectedRow();
         this.setVisible(false);
-        addProduct k = new addProduct();
         k.setVisible(true);
-//        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        //        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         k.setAlwaysOnTop(true);
         k.setBounds(0 + 200, 0 + 200, 400, 600);
         k.toFront();
         k.requestFocus();
         if (baris != -1) {
-            int pilih = (Integer.valueOf(jTable1.getValueAt(baris, 5).toString()) - 2);
-            k.productID.setText(jTable1.getValueAt(baris, 0).toString());
-            k.productID.disable();
-            k.productionName.setText(jTable1.getValueAt(baris, 1).toString());
-            k.description.setText(jTable1.getValueAt(baris, 2).toString());
-            k.standardCost.setText(jTable1.getValueAt(baris, 3).toString());
-            k.listPrice.setText(jTable1.getValueAt(baris, 4).toString());
-            k.categoryID.setSelectedIndex(pilih);
+            k.customerID.setText(jTable1.getValueAt(baris, 0).toString());
+            k.customerID.disable();
+            k.custName.setText(jTable1.getValueAt(baris, 1).toString());
+            k.address.setText(jTable1.getValueAt(baris, 2).toString());
+            k.website.setText(jTable1.getValueAt(baris, 3).toString());
+            k.creditLimit.setText(jTable1.getValueAt(baris, 4).toString());
             k.save.setVisible(false);
             k.update.setVisible(true);
             k.delete.setVisible(true);
@@ -217,14 +209,15 @@ public class Product extends javax.swing.JFrame {
     private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        Menu k = new Menu();
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        k.setAlwaysOnTop(true);
+//        Menu k = new Menu();
+//        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+//        k.setAlwaysOnTop(true);
 //        k.setBounds(0 + 200, 0 + 200, screenSize.width - 400, screenSize.height - 400);
-        k.toFront();
-        k.requestFocus();
-
-        k.setVisible(true);
+//        k.toFront();
+//        k.requestFocus();
+//        k.setVisible(true);
+//        k.toFront();
+//        k.requestFocus();
     }//GEN-LAST:event_cancelActionPerformed
 
     /**
@@ -244,20 +237,23 @@ public class Product extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Customers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Customers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Customers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Customers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Product().setVisible(true);
+                new Customers().setVisible(true);
             }
         });
     }

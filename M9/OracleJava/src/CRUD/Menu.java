@@ -4,6 +4,10 @@
  */
 package CRUD;
 
+import CRUD.Master.CategoryProduct;
+import CRUD.Master.Product;
+import CRUD.Master.Employees;
+import CRUD.Master.Customers;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
@@ -19,7 +23,7 @@ public class Menu extends javax.swing.JFrame {
     public Menu() {
         initComponents();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -37,7 +41,7 @@ public class Menu extends javax.swing.JFrame {
         exitMenuItem = new javax.swing.JMenuItem();
         masterMenu = new javax.swing.JMenu();
         barangMenuItem = new javax.swing.JMenuItem();
-        supplierMenuItem = new javax.swing.JMenuItem();
+        customerMenuItem = new javax.swing.JMenuItem();
         karyawanMenuItem = new javax.swing.JMenuItem();
         kategoriBarangMenuItem = new javax.swing.JMenuItem();
         transactionMenu = new javax.swing.JMenu();
@@ -75,7 +79,7 @@ public class Menu extends javax.swing.JFrame {
         masterMenu.setText("Master");
 
         barangMenuItem.setMnemonic('t');
-        barangMenuItem.setText("Barang");
+        barangMenuItem.setText("Products");
         barangMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 barangMenuItemActionPerformed(evt);
@@ -83,15 +87,25 @@ public class Menu extends javax.swing.JFrame {
         });
         masterMenu.add(barangMenuItem);
 
-        supplierMenuItem.setMnemonic('y');
-        supplierMenuItem.setText("Supplier");
-        masterMenu.add(supplierMenuItem);
+        customerMenuItem.setMnemonic('y');
+        customerMenuItem.setText("Customers");
+        customerMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                customerMenuItemActionPerformed(evt);
+            }
+        });
+        masterMenu.add(customerMenuItem);
 
         karyawanMenuItem.setMnemonic('p');
-        karyawanMenuItem.setText("Karyawan");
+        karyawanMenuItem.setText("Employees");
+        karyawanMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                karyawanMenuItemActionPerformed(evt);
+            }
+        });
         masterMenu.add(karyawanMenuItem);
 
-        kategoriBarangMenuItem.setText("Kategori Barang");
+        kategoriBarangMenuItem.setText("Product Categories");
         kategoriBarangMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 kategoriBarangMenuItemActionPerformed(evt);
@@ -135,11 +149,11 @@ public class Menu extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+            .addGap(0, 279, Short.MAX_VALUE)
         );
 
         pack();
@@ -154,7 +168,7 @@ public class Menu extends javax.swing.JFrame {
         Product x = new Product();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         x.setAlwaysOnTop(true);
-        x.setBounds(0+200,0+200,screenSize.width-400, screenSize.height-400);
+        x.setBounds(0 + 200, 0 + 200, screenSize.width - 400, screenSize.height - 400);
         x.setVisible(true);
         x.toFront();
         x.requestFocus();
@@ -166,14 +180,36 @@ public class Menu extends javax.swing.JFrame {
 
     private void kategoriBarangMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kategoriBarangMenuItemActionPerformed
         // TODO add your handling code here:
-        categoryProduct cp = new categoryProduct();
+        CategoryProduct cp = new CategoryProduct();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         cp.setAlwaysOnTop(true);
-        cp.setBounds(0+200,0+200,screenSize.width-400, screenSize.height-400);
+        cp.setBounds(0 + 200, 0 + 200, screenSize.width - 400, screenSize.height - 400);
         cp.setVisible(true);
         cp.toFront();
         cp.requestFocus();
     }//GEN-LAST:event_kategoriBarangMenuItemActionPerformed
+
+    private void customerMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerMenuItemActionPerformed
+        // TODO add your handling code here:
+        Customers c = new Customers();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        c.setAlwaysOnTop(true);
+        c.setBounds(0 + 200, 0 + 200, screenSize.width - 400, screenSize.height - 400);
+        c.setVisible(true);
+        c.toFront();
+        c.requestFocus();
+    }//GEN-LAST:event_customerMenuItemActionPerformed
+
+    private void karyawanMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_karyawanMenuItemActionPerformed
+        // TODO add your handling code here:
+        Employees e = new Employees();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        e.setAlwaysOnTop(true);
+        e.setBounds(0 + 200, 0 + 200, screenSize.width - 400, screenSize.height - 400);
+        e.setVisible(true);
+        e.toFront();
+        e.requestFocus();
+    }//GEN-LAST:event_karyawanMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -212,6 +248,7 @@ public class Menu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem barangMenuItem;
+    private javax.swing.JMenuItem customerMenuItem;
     private javax.swing.JDesktopPane desktopPane;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
@@ -226,7 +263,6 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenu reportMenu;
     private javax.swing.JMenuItem sellMenuItem;
     private javax.swing.JMenuItem stockMenuReport;
-    private javax.swing.JMenuItem supplierMenuItem;
     private javax.swing.JMenu transactionMenu;
     // End of variables declaration//GEN-END:variables
 
